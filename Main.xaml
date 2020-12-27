@@ -70,6 +70,8 @@
       <Variable x:TypeArguments="x:String" Name="book_Description" />
       <Variable x:TypeArguments="x:Boolean" Name="is_Logged" />
       <Variable x:TypeArguments="x:Boolean" Name="if_Search_Exist" />
+      <Variable x:TypeArguments="sd:DataTable" Name="BookTable" />
+      <Variable x:TypeArguments="x:String" Name="book_Name" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -122,23 +124,20 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:ExcelApplicationScope>
-    <ui:ForEachRow CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="Iterating through each Book details according to its requirements and placing order" DataTable="[loginTable]" DisplayName="For Each Given Book Requirements" sap:VirtualizedContainerService.HintSize="755,1266" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+    <ui:BuildDataTable DataTable="[BookTable]" DisplayName="Build a Scarped Book Table" sap:VirtualizedContainerService.HintSize="755,59" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;BookName&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;BookDescription&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;BookPrice&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+    <ui:ForEachRow CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="Iterating through each Book details according to its requirements and placing order" DataTable="[loginTable]" DisplayName="For Each Given Book Requirements" sap:VirtualizedContainerService.HintSize="755,1167" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
       <ui:ForEachRow.Body>
         <ActivityAction x:TypeArguments="sd:DataRow">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Searching and Verifying Order" sap:VirtualizedContainerService.HintSize="705,1087" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <Sequence DisplayName="Searching and Verifying Order" sap:VirtualizedContainerService.HintSize="705,988" sap2010:WorkflowViewState.IdRef="Sequence_3">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="663,995" sap2010:WorkflowViewState.IdRef="Sequence_2">
-              <Sequence.Variables>
-                <Variable x:TypeArguments="x:String" Name="book_Name" />
-                <Variable x:TypeArguments="sd:DataTable" Name="BookTable" />
-              </Sequence.Variables>
+            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="663,896" sap2010:WorkflowViewState.IdRef="Sequence_2">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -146,21 +145,11 @@
               </sap:WorkflowViewStateService.ViewState>
               <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Search and Scrap" sap:VirtualizedContainerService.HintSize="621,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="BooksWagon UC2 _ Search and Scrap.xaml">
                 <ui:InvokeWorkflowFile.Arguments>
-                  <OutArgument x:TypeArguments="x:String" x:Key="BookName">
-                    <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="book_Name" />
-                  </OutArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="BookDescription">
-                    <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="book_Description" />
-                  </OutArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="BookPrice">
-                    <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="book_Price" />
-                  </OutArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="search_Text">
-                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row(&quot;BookName&quot;).ToString" />
-                  </InArgument>
-                  <OutArgument x:TypeArguments="x:Boolean" x:Key="if_Search_Exist">
-                    <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="if_Search_Exist" />
-                  </OutArgument>
+                  <OutArgument x:TypeArguments="x:String" x:Key="BookName">[book_Name]</OutArgument>
+                  <OutArgument x:TypeArguments="x:String" x:Key="BookDescription">[book_Description]</OutArgument>
+                  <OutArgument x:TypeArguments="x:String" x:Key="BookPrice">[book_Price]</OutArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="search_Text">[row("BookName").ToString]</InArgument>
+                  <OutArgument x:TypeArguments="x:Boolean" x:Key="if_Search_Exist">[if_Search_Exist]</OutArgument>
                 </ui:InvokeWorkflowFile.Arguments>
               </ui:InvokeWorkflowFile>
               <If Condition="[if_Search_Exist=True]" sap:VirtualizedContainerService.HintSize="621,260" sap2010:WorkflowViewState.IdRef="If_1">
@@ -177,15 +166,14 @@
                   <ui:Continue sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Continue_1" />
                 </If.Else>
               </If>
-              <If Condition="[is_in_Budget=True]" sap:VirtualizedContainerService.HintSize="621,451" sap2010:WorkflowViewState.IdRef="If_2">
+              <If Condition="[is_in_Budget=True]" sap:VirtualizedContainerService.HintSize="621,352" sap2010:WorkflowViewState.IdRef="If_2">
                 <If.Then>
-                  <Sequence sap:VirtualizedContainerService.HintSize="376,303" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                  <Sequence sap:VirtualizedContainerService.HintSize="376,204" sap2010:WorkflowViewState.IdRef="Sequence_5">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
-                    <ui:BuildDataTable DataTable="[BookTable]" DisplayName="Build a Scarped Book Table" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;BookName&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;BookDescription&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;BookPrice&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
                     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Place/Check Order and Email" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="BooksWagon UC4 _ Book and Email.xaml">
                       <ui:InvokeWorkflowFile.Arguments>
                         <InArgument x:TypeArguments="x:String" x:Key="in_BookName">[book_Name]</InArgument>
